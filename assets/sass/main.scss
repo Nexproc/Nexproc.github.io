@@ -1299,7 +1299,7 @@
 		width: 20em;
 		z-index: _misc(z-index-base) + 2;
 
-		ul {
+		ul:not(.icons) {
 			list-style: none;
 			padding: 0;
 
