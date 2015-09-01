@@ -27,7 +27,9 @@ div.e {
 }
 
 div.A {
-  background-color: red;
+  background-color: yellow;
+  background-image: url("./apple.png");
+  background-size: contain;
 }
 
 .group:after {
