@@ -10,7 +10,7 @@
     this.render();
     this.buildListener.call(this);
     var view = this;
-    setInterval(this.step.bind(view), 500);
+    setInterval(this.step.bind(view), 100);
   };
 
   View.prototype.scaffold = function () {

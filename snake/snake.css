@@ -1,33 +1,32 @@
 ul {
   list-style: none;
-  max-width: 40em;
-  max-height: 40em;
+  max-width: 20em;
+  max-height: 20em;
+  margin: 0 auto;
 }
 
 body {
   overflow: hidden;
+  background-color: grey;
+  color: white;
+  text-align: center;
 }
 
 div {
-  width: 2em;
-  height: 2em;
+  width: 1em;
+  height: 1em;
   float: left;
 }
 
-div.H {
-  background-color: blue;
-}
-
-div.S {
+div.S, div.H {
   background-color: black;
 }
 
-div.e {
-  background-color: yellow;
+div.e, div.A {
+  background-color: white;
 }
 
 div.A {
-  background-color: yellow;
   background-image: url("./apple.png");
   background-size: contain;
 }
