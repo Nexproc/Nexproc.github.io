@@ -11,7 +11,7 @@
     this.buildListener.call(this);
     var view = this;
     this.nextDir = null;
-    setInterval(this.step.bind(view), 100);
+    this.interval = setInterval(this.step.bind(view), 50);
   };
 
   View.prototype.scaffold = function () {
@@ -66,7 +66,12 @@
   View.prototype.step = function () {
     if (this.nextDir) this.board.snake.turn(this.nextDir);
     this.nextDir = null;
-    this.board.snake.move();
-    this.render();
+    if (this.board.lost) {
+      clearInterval(this.interval);
+      this.board = null;
+    } else {
+      this.board.snake.move();
+      this.render();
+    }
   };
 })();
