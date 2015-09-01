@@ -10,6 +10,7 @@
     this.render();
     this.buildListener.call(this);
     var view = this;
+    this.nextDir = null;
     setInterval(this.step.bind(view), 100);
   };
 
@@ -44,22 +45,27 @@
     console.log();
     switch (event.keyCode) {
         case 37:
-          if (dir !== "E") { dir = "W"; }
+        case 65:
+          if (dir !== "E") { this.nextDir = "W"; }
           break;
         case 38:
-          if (dir !== "S") { dir = "N"; }
+        case 87:
+          if (dir !== "S") { this.nextDir = "N"; }
           break;
         case 39:
-          if (dir !== "W") { dir = "E"; }
+        case 68:
+          if (dir !== "W") { this.nextDir = "E"; }
           break;
         case 40:
-          if (dir !== "N") { dir = "S"; }
+        case 83:
+          if (dir !== "N") { this.nextDir = "S"; }
           break;
     }
-    this.board.snake.turn(dir);
   };
 
   View.prototype.step = function () {
+    if (this.nextDir) this.board.snake.turn(this.nextDir);
+    this.nextDir = null;
     this.board.snake.move();
     this.render();
   };
