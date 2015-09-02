@@ -4,8 +4,12 @@
   }
 
   var View = Snakes.View = function ($el) {
-    this.board = new Snakes.Board();
     this.$el = $el;
+    this.setup();
+  };
+
+  View.prototype.setup = function() {
+    this.board = new Snakes.Board();
     this.scaffold();
     this.render();
     this.buildListener.call(this);
@@ -36,7 +40,6 @@
   };
 
   View.prototype.buildListener = function () {
-    console.log(this);
     $('body').on("keydown", this.handleKeyEvent.bind(this));
   };
 
@@ -63,15 +66,23 @@
     }
   };
 
+  View.prototype.reset = function (event) {
+    clearInterval(this.interval);
+    $("ul").empty();
+    $("body").off("keydown");
+    this.setup();
+  };
+
   View.prototype.step = function () {
     if (this.nextDir) this.board.snake.turn(this.nextDir);
     this.nextDir = null;
     if (this.board.lost) {
-      clearInterval(this.interval);
-      this.board = null;
-    } else {
-      this.board.snake.move();
-      this.render();
+      $('body').off("keydown");
+      $('body').on("keydown", this.reset.bind(this));
     }
+    else {
+      this.board.snake.move();
+    }
+    this.render();
   };
 })();

@@ -38,7 +38,7 @@
   };
 
   Coord.prototype.equals = function (otherPos) {
-    return this[0] === otherPos[0] && this[1] === otherPos[1];
+    return this.pos[0] === otherPos[0] && this.pos[1] === otherPos[1];
   };
 
   Coord.prototype.isOpposite = function (otherPos) {
@@ -53,7 +53,6 @@
   };
 
   Board.prototype.eatApple = function (pos) {
-    console.log(pos);
     this.grid[pos[0]][pos[1]] = "e";
     this.snake.grow();
     this.addApple();
@@ -64,10 +63,7 @@
     var compCallBack = function(segment) { return segment.equals(applePos); };
     while (!applePos) {
       applePos = this.randApplePos();
-      if(this.snake && this.snake.segments.some(compCallBack)) {
-        debugger
-        applePos = null;
-      }
+      if(this.snake && this.snake.segments.some(compCallBack)) applePos = null;
     }
     this.dropApple(applePos);
   };
@@ -100,17 +96,20 @@
   };
 
   Board.prototype.render = function () {
-    var snake = this;
     var headPos = this.snake.segments[0].pos;
-    if (this.grid[headPos[0]][headPos[1]] === "A") this.eatApple(headPos);
-    this.renderSnakeBody();
-    this.checkLosingConditions(headPos);
-    this.grid[headPos[0]][headPos[1]] = "H";
-
+    if(this.lost) {
+      this.snake.head = "S";
+      this.gameOfLife();
+    } else {
+      this.renderSnakeBody();
+      this.checkLosingConditions(headPos);
+    }
+    if (!this.lost) {
+      this.grid[headPos[0]][headPos[1]] === "A" && this.eatApple(headPos);
+      this.grid[headPos[0]][headPos[1]] = "H";
+    }
     var art = this.drawGrid();
-
-    this.renderEmptySpaces();
-
+    !this.lost && this.renderEmptySpaces();
     return art;
   };
 
@@ -133,13 +132,14 @@
   Board.prototype.renderEmptySpaces = function () {
     var that = this;
     this.snake.segments.forEach(function (segment) {
+      if(that.outOfBounds(segment.pos)) return;
       that.grid[segment.pos[0]][segment.pos[1]] = "e";
     });
   };
 
   Board.prototype.checkLosingConditions = function (headPos) {
-    if (this.grid[headPos[0]][headPos[1]] === "S") {this.lost = true;}
-    else if (this.outOfBounds(headPos)) {this.lost = true;}
+    if (this.outOfBounds(headPos)) {this.lost = true;}
+    else if (this.grid[headPos[0]][headPos[1]] === "S") {this.lost = true;}
   };
 
   Board.prototype.outOfBounds = function (pos) {
@@ -147,4 +147,68 @@
     if (pos[0] < 0 || pos[1] < 0) return true;
     return false;
   };
+
+  Board.prototype.gameOfLife = function () {
+    var replacement = this.newGrid();
+    for(var i = 0; i < 20; i++) {
+      for (var c = 0; c < 20; c++) {
+        var pos = [i, c];
+        var cell = this.grid[i][c];
+        var total = this.totalNeighbors(pos);
+        replacement[i][c] = this.live(cell, total);
+      }
+    }
+    this.grid = replacement;
+  };
+
+  Board.prototype.totalNeighbors = function (pos) {
+    var neighbors = 0;
+    //holds neighbor position
+    var npos = [0, 0];
+    //topleft
+    npos = [pos[0] - 1, pos[1] - 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //top
+    npos = [pos[0] - 1, pos[1]];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //topright
+    npos = [pos[0] - 1, pos[1] + 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //right
+    npos = [pos[0], pos[1] + 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //bottomright
+    npos = [pos[0] + 1, pos[1] + 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //bottom
+    npos = [pos[0] + 1, pos[1]];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //bottomleft
+    npos = [pos[0] + 1, pos[1] - 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    //left
+    npos = [pos[0], pos[1] - 1];
+    !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    return neighbors;
+  };
+
+  Board.prototype.checkN = function (npos) {
+    return this.grid[npos[0]][npos[1]] == "S";
+  };
+
+
+  Board.prototype.live = function (cell, total) {
+    //is the cell alive?
+    if(cell !== "S") {
+      //lives if it has exactly 3 neighbors
+      if ( total === 3 ) return "S";
+      //stays dead otherwise
+      return "e";
+    }
+    //dies from underpopulation OR overpopulation
+    if (total < 2 || total > 3) return "e";
+    //lives on
+    return "S";
+  };
+
 })();
