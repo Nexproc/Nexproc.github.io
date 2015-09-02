@@ -1942,6 +1942,17 @@
 		position: relative;
 	}
 
+		.image .image-buttons {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translateX(-50%) translateY(-50%);
+		}
+
+			.image .image-buttons .button {
+				width: 100%
+			}
+
 		.image img {
 			border-radius: 3px;
 			display: block;
@@ -2327,6 +2338,32 @@
 			button.special:active,
 			.button.special:active {
 				background-color: #eb341c !important;
+			}
+
+			input[type="submit"].git,
+			input[type="reset"].git,
+			input[type="button"].git,
+			button.git,
+			.button.git {
+				background-color: #371764;
+				box-shadow: none !important;
+				color: #ffffff !important;
+			}
+
+			input[type="submit"].git:hover,
+			input[type="reset"].git:hover,
+			input[type="button"].git:hover,
+			button.git:hover,
+			.button.git:hover {
+				background-color: #5b1871 !important;
+			}
+
+			input[type="submit"].git:active,
+			input[type="reset"].git:active,
+			input[type="button"].git:active,
+			button.git:active,
+			.button.git:active {
+				background-color: #7e1388 !important;
 			}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
