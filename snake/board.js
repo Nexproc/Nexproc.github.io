@@ -52,7 +52,7 @@
 
   Board.prototype.render = function () {
     var headPos = this.snake.segments[0].pos;
-    if(this.lost) {
+    if(this.lost && this.gameOfLife) {
       this.snake.head = "S";
       this.gameOfLife();
     } else {
