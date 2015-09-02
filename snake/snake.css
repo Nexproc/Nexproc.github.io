@@ -6,7 +6,7 @@ html {
 
 ul {
   list-style: none;
-  margin: 84px auto;
+  margin: 73px auto;
   /*background-color: #e4ad69;*/
   display: inline-block;
   clear: both;
@@ -48,5 +48,15 @@ div.S, div.H {
 div.A {
   background-image: url("./apple.png");
   background-size: contain;
+  background-repeat: no-repeat;
   opacity: .7;
+}
+
+h1 {
+  opacity: .8;
+  font-family: 'Permanent Marker', cursive;
+  color: black;
+  background: url("./tape.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
