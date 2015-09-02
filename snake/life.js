@@ -5,79 +5,81 @@
 //once all nodes have added their value...
 //repeat process until user restarts with a key press
 //function game of life
-Snake.prototype.gameOfLife = function () {
-  var replacement = this.newGrid();
-  for(var i = 0; i < 20; i++) {
-    var row = this.grid[i];
-    for (var c = 0; c < 20; c++) {
-      var pos = [i, c];
-      var cell = row[c];
-      var totalNeighbors = this.checkNeighbors(pos);
-      replacement[i][c] = this.live(cell, totalNeighbors);
+;(function () {
+
+  var Board = Snakes.Board;
+
+  Board.prototype.gameOfLife = function () {
+    var replacement = this.newGrid();
+    for(var i = 0; i < 20; i++) {
+      for (var c = 0; c < 20; c++) {
+        var pos = [i, c];
+        var cell = this.grid[i][c];
+        var total = this.totalNeighbors(pos);
+        replacement[i][c] = this.live(cell, total);
+      }
     }
-  }
-};
+    this.grid = replacement;
+  };
 
-Snake.prototype.totalNeighbors = function (pos) {
-  var neighbors = 0;
-  //holds neighbor position
-  var npos = [0, 0];
-  //topleft
-  npos = [pos[0] - 1, pos[1] - 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //top
-  npos = [pos[0] - 1, pos[1]];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //topright
-  npos = [pos[0] - 1, pos[1] + 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //right
-  npos = [pos[0], pos[1] + 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //bottomright
-  npos = [pos[0] + 1, pos[1] + 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //bottom
-  npos = [pos[0] + 1, pos[1]];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //bottomleft
-  npos = [pos[0] + 1, pos[1] - 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  //left
-  npos = [pos[0], pos[1] - 1];
-  if(!this.outOfBounds(npos)) {
-    if (this.board[npos[0]][npos[1]] == "S") neighbors++;
-  }
-  return neighbors;
-};
+  Board.prototype.totalNeighbors = function (pos) {
+    //TL, T, TR, R
+    //BR, B, BL, L
+    var vectors = [
+                    [-1, -1], [-1, 0], [-1, 1], [0, 1],
+                    [1, 1], [1, 0], [1, -1], [0, -1]
+                  ];
+    //number of neighbors
+    var neighbors = 0;
+    //holds neighbor position
+    var that = this;
+    vectors.forEach(function (vector) {
+      var npos = [pos[0] + vector[0], pos[1] + vector[1]];
+      !that.outOfBounds(npos) && that.checkN(npos) && ++neighbors;
+    });
+    // //topleft
+    // npos = [pos[0] - 1, pos[1] - 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //top
+    // npos = [pos[0] - 1, pos[1]];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //topright
+    // npos = [pos[0] - 1, pos[1] + 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //right
+    // npos = [pos[0], pos[1] + 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //bottomright
+    // npos = [pos[0] + 1, pos[1] + 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //bottom
+    // npos = [pos[0] + 1, pos[1]];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //bottomleft
+    // npos = [pos[0] + 1, pos[1] - 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    // //left
+    // npos = [pos[0], pos[1] - 1];
+    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    return neighbors;
+  };
+
+  Board.prototype.checkN = function (npos) {
+    return this.grid[npos[0]][npos[1]] == "S";
+  };
 
 
-Snake.prototype.live = function (cell, total) {
-  //is the cell alive?
-  if((cell !== "H" || cell !== "S")) {
-    //lives if it has exactly 3 neighbors
-    if ( total === 3 ) return "S";
-    //stays dead otherwise
-    return "e";
-  }
-  //dies from underpopulation OR overpopulation
-  if (total < 2 || total > 3) {
-    return "e";
-  }
-  //lives on
-  return "S";
-};
+  Board.prototype.live = function (cell, total) {
+    //is the cell alive?
+    if(cell !== "S") {
+      //lives if it has exactly 3 neighbors
+      if ( total === 3 ) return "S";
+      //stays dead otherwise
+      return "e";
+    }
+    //dies from underpopulation OR overpopulation
+    if (total < 2 || total > 3) return "e";
+    //lives on
+    return "S";
+  };
+})();
