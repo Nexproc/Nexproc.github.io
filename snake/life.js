@@ -37,30 +37,7 @@
       var npos = [pos[0] + vector[0], pos[1] + vector[1]];
       !that.outOfBounds(npos) && that.checkN(npos) && ++neighbors;
     });
-    // //topleft
-    // npos = [pos[0] - 1, pos[1] - 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //top
-    // npos = [pos[0] - 1, pos[1]];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //topright
-    // npos = [pos[0] - 1, pos[1] + 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //right
-    // npos = [pos[0], pos[1] + 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //bottomright
-    // npos = [pos[0] + 1, pos[1] + 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //bottom
-    // npos = [pos[0] + 1, pos[1]];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //bottomleft
-    // npos = [pos[0] + 1, pos[1] - 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
-    // //left
-    // npos = [pos[0], pos[1] - 1];
-    // !this.outOfBounds(npos) && this.checkN(npos) && neighbors++;
+    
     return neighbors;
   };
 
