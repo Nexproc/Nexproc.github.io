@@ -109,7 +109,8 @@
 								<img src="images/nexproc-demo.png" alt="nexproc-screenshot" />
 								<div class="image-buttons">
 									<a href="http://www.nexproc.xyz" class="button special">Live</a><br>
-									<a href="https://github.com/Nexproc/nexproc" class="button git">Github</a>
+									<a href="https://github.com/Nexproc/nexproc" class="button git">Nexproc Github</a>
+									<a href="https://github.com/Nexproc/Node-Chat-App" class="button git">Chat Github</a>
 								</div>
 							</div><div class="content">
 								<h2>Nexproc: <br />Let's Kick this Pig</h2>
@@ -117,7 +118,9 @@
 								inspired by Asana. It is deployed on Rails' RESTful MVC
 								framework and utilizes a custom API that is patched over
 								Backbone's existing Model, Collection, and View structures to
-								drastically DRY up the codebase.</p>
+								drastically DRY up the codebase. Nexproc also uses an embedded,
+								multi-room, Node.js and Socket.io chat application.
+							</p>
 							</div>
 						</section>
 						<section class="spotlight">
@@ -226,9 +229,13 @@
 			$(document).ready(function () {
 				$(this).find(".image-buttons").hide();
 		    $(document).on('mouseenter', '.image', function (e) {
-					$(e.currentTarget).find(".image-buttons").fadeIn();
+					var $buttons = $(e.currentTarget).find(".image-buttons");
+					$buttons.stop();
+					$buttons.fadeIn();
 		    }).on('mouseleave', '.image', function (e) {
-	        $(e.currentTarget).find(".image-buttons").fadeOut();
+					var $buttons = $(e.currentTarget).find(".image-buttons");
+					$buttons.stop();
+					$buttons.fadeOut();
 		    });
 			});
 			</script>
