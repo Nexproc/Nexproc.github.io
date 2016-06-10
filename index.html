@@ -89,14 +89,14 @@
 										I needed something more and looked for a faster,
 										more immersive learning experience;
 										that's when I stumbled onto programming bootcamps.
-										I began teaching myself Ruby on top of my college courses and
-										applied to App Academy. I was accepted into the program after
-										three rounds of interviews. Without a second thought, I
-										packed my bags and moved across the country.
 									</p>
 									<p>
-										I currently work as a software engineer at
-										<a href="http://paradata.io">Paradata</a> in San Jose.
+										I applied to App Academy and, on top of my other university
+										courses, began learning Ruby. I was accepted into the
+										program after three rounds of interviews and, without
+										hesitation, packed my bags and moved across the country.
+										You can check out my experience at a/A on my
+										<a href="http://nexproc.tumblr.com">blog</a>.
 									</p>
 								</section>
 						</div>
@@ -104,6 +104,29 @@
 
 				<!-- Two -->
 					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image">
+								<img src="images/poetradeninja-demo.png" alt="poe-trade-ninja" />
+								<div class="image-buttons">
+									<a href="http://poetrade.ninja" class="button special">Live</a><br>
+									<a href="https://github.com/Nexproc/PoE-Trade-Crawler" class="button git">Github</a>
+								</div>
+							</div><div class="content">
+								<h2>PoE Trade Ninja</h2>
+								<p>
+									Stack - Angular, Django, Postgres, deployed on Heroku<br>
+
+									<p>High level - PoE Trade Ninja is a currency trading data acquisition and analysis application for the video game <a href="https://pathofexile.com">Path of Exile's</a> online <a href="http://currency.poe.trade">marketplace</a>.</p>
+
+									<p>Little more specific - PoE Trade Ninja is made up two main components: the <strong>crawler</strong>, and the <strong>Django + Angular web application</strong>.</p>
+
+									<p>Crawler: Using Python 3.5's asyncio libraries, I'm able to asynchronously crawl poe.trade's currency market. The crawler is able to scrape, parse, and persist all ~5,000 trades in about 3-9 seconds (depending on connection speeds). This script runs once an hour in the background to continue populating data for the trades.</p>
+
+									<p>The Django + Angular Application: Using a series of asynchronous requests, the Angular side of the application is able to gather all of the required aggregated data for each hour in an instant. After fetching all of the trade information for the hour, the client-side application side stores all of the values retrieved (so far) in a cache to prevent any extra, unnecessary calls to the server-side.
+									I also use HighCharts as my graphing library.</p>
+								</p>
+							</div>
+						</section>
 						<section class="spotlight">
 							<div class="image">
 								<img src="images/nexproc-demo.png" alt="nexproc-screenshot" />
